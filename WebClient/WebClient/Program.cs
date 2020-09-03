@@ -1,6 +1,9 @@
 ﻿using DataConverters;
+using DataModel;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Resources;
@@ -15,26 +18,22 @@ namespace WebClient
         static void Main(string[] args)
         {
             Konzola.WriteLine("Dobrodosli u aplikaciju!");
-            Konzola.WriteLine("Unesite URL:");
 
             string URL = "";
             string operation = "";
 
             List<string> dozvoljeneOperacije = new List<string>() { "GET", "POST", "PATCH", "DELETE" };
 
-
-            JSONtoXMLAdapter adapter = new JSONtoXMLAdapter();
-            adapter.ConvertJSONtoXML("eee");
-
-
-
             while (true)
             {
+                Konzola.Clear();
+                Konzola.WriteLine("Unesite URL:");
                 // GET resurs/1
                 URL = Konzola.ReadLine();
 
                 string[] split = URL.Split(' ','/');
                 operation = split[0];
+
 
                 // Potrebna je provera da li je unos dobro formatiran
 
@@ -47,18 +46,22 @@ namespace WebClient
 
                 // Dodati jos provera..
 
+                Request request = new Request() { Verb = operation, Noun = split[1]};
 
-                // Razlicite akcije u zavisnosti od toga koja funkcija se poziva...
-                switch (operation.ToUpper())
+                try
                 {
-                    case "GET": break;
-                    case "POST": break;
-                    case "PATCH": break;
-                    case "DELETE": break;
-                    default:
-                        break;
+                    request.Query = split[3];
+                    request.Fields = split[4];
+                }
+                catch(Exception e)
+                {
+                    Trace.TraceInformation(e.Message);
                 }
 
+                JSONtoXMLAdapter adapter = new JSONtoXMLAdapter();
+                adapter.ConvertJSONtoXML(JsonConvert.SerializeObject(request));
+
+                Konzola.ReadLine();
             }
 
         }
