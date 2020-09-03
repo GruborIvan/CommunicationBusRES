@@ -17,12 +17,7 @@ namespace DataConverters
         
         public string ConvertJSONtoXML(string JSON_string)
         {
-            Resurs r = new Resurs() { Id = 1, Naziv = "eee", Opis = "fhwaef" };
-
-            string json = new JavaScriptSerializer().Serialize(r);
-            Console.WriteLine(json);
-
-            XmlDocument doc = (XmlDocument)JsonConvert.DeserializeXmlNode(json,"Resurs");
+            XmlDocument doc = (XmlDocument)JsonConvert.DeserializeXmlNode(JSON_string,"Resurs");
             StringWriter stringWriter = new StringWriter();
             XmlTextWriter xmlTextWriter = new XmlTextWriter(stringWriter);
             doc.WriteTo(xmlTextWriter);

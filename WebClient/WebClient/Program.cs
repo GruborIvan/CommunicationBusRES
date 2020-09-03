@@ -36,6 +36,8 @@ namespace WebClient
                 string[] split = URL.Split(' ','/');
                 operation = split[0];
 
+                // Potrebna je provera da li je unos dobro formatiran
+
                 if (!dozvoljeneOperacije.Contains(operation.ToUpper()))
                 {
                     Konzola.WriteLine("Uneli ste nepoznatu operaciju. Pokusajte ponovo!");
@@ -43,7 +45,7 @@ namespace WebClient
                     continue;
                 }
 
-                // Potrebna je provera da li je unos dobro formatiran
+                // Dodati jos provera..
 
 
                 // Razlicite akcije u zavisnosti od toga koja funkcija se poziva...
