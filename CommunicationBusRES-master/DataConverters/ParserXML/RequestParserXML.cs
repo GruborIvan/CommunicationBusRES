@@ -26,6 +26,7 @@ namespace DataConverters
 			string[] fields = getFields.Split('<'); //(id;name;description)
 			string field = fields[0].Replace(';', ','); //(id,name,description)
 
+			// GET
 			if (operation.ToUpper() == "GET")
 			{
 				if (!string.IsNullOrEmpty(getName) && !string.IsNullOrEmpty(getType))
@@ -51,11 +52,15 @@ namespace DataConverters
 					SQLQuery = " SELECT " + field + Environment.NewLine + "FROM " + Base + Environment.NewLine + "WHERE " + getType;
 				}
 
-			} else if(operation.ToUpper() == "POST")
+			}
+			else if(operation.ToUpper() == "POST")
 			{
 				SQLQuery = " INSER INTO " + Base + Environment.NewLine + "VALUES (" + getName + "," + " NO DESCRIPTION, " + getType + " )";
 				Console.WriteLine(SQLQuery);
-			} else if (operation.ToUpper() == "DELETE")
+			}
+			
+			
+			else if (operation.ToUpper() == "DELETE")
 			{
 				if (!string.IsNullOrEmpty(getName) && !string.IsNullOrEmpty(getType))
 				{
@@ -71,6 +76,7 @@ namespace DataConverters
 					SQLQuery = " DELETE " + field + Environment.NewLine + "FROM " + Base + Environment.NewLine + "WHERE " + getType;
 				}
 			}
+
 			else if (operation.ToUpper() == "PATCH")
 			{
 				//how to update sql

@@ -1,6 +1,8 @@
 ﻿using DataConverters;
 using DataModel;
+using DataModel.Model;
 using System;
+using System.Collections.Generic;
 using System.Web.Script.Serialization;
 
 namespace WebClient
