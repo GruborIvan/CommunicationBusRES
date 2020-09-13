@@ -2,11 +2,11 @@
 {
 	public class CommunicationBus
 	{
-		public void ForwardToXMLtoDBAdapter(string xmlstring)
+		// Povratna vrednost ove metode je XML reprezentacija klase Response
+		public string ForwardToXMLtoDBAdapter(string xmlstring)
 		{
-
 			XMLtoDBadapter adapter = new XMLtoDBadapter();
-			adapter.ConvertXMLtoQuery(xmlstring);
+			return adapter.ConvertXMLtoQuery(xmlstring);
 		}
 
 	}

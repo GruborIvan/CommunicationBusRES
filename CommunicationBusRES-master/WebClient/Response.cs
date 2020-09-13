@@ -1,6 +1,6 @@
 ﻿namespace WebClient
 {
-	public class ParseResult
+	public class Response
 	{
 		public bool Success { get; }
 		public string JSON { get; }
@@ -11,13 +11,13 @@
 
 		public string ErrorMessage { get; }
 
-		public ParseResult(string json)
+		public Response(string json)
 		{
 			JSON = json;
 			Success = true;
 		}
 
-		public ParseResult(int number, string code, string message)
+		public Response(int number, string code, string message)
 		{
 			ErrorMessage = message;
 			ErrorNumber = number;

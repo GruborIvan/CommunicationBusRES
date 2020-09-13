@@ -10,7 +10,6 @@ namespace DataConverters
     {
         private readonly string ConnString = @"Data Source =DESKTOP-4SMJ7EN\DATALAB; Initial Catalog=master; uid=sa; pwd=DataLab123DataLab";
 
-
         // Radi, testirano!
         public List<Resource> GetResurs(string query)
         {

@@ -6,26 +6,25 @@ namespace DataConverters
 {
 	public class JSONtoXMLAdapter
 	{
-		public string ConvertJSONtoXML(string JSON_string)
+		public string ConvertJSONtoXML(string jsonStringRequest)
 		{
 
-			XmlDocument doc = (XmlDocument)JsonConvert.DeserializeXmlNode(JSON_string, "Resource");
+			XmlDocument doc = (XmlDocument)JsonConvert.DeserializeXmlNode(jsonStringRequest, "Resource");
 			StringWriter stringWriter = new StringWriter();
 			XmlTextWriter xmlTextWriter = new XmlTextWriter(stringWriter);
 			doc.WriteTo(xmlTextWriter);
 
 			CommunicationBus adapter = new CommunicationBus();
-			adapter.ForwardToXMLtoDBAdapter(stringWriter.ToString());
 
-			return stringWriter.ToString();
+			// Poziva funkciju iz CommunicationBus
+			string xmlResponse = adapter.ForwardToXMLtoDBAdapter(stringWriter.ToString());
+
+			// Kad se vrati povratna vrednost, pretvaranje iz XML u JSON oblik...
+			XmlDocument document = new XmlDocument();
+			document.Load(xmlResponse);
+			string jsonStringResponse = JsonConvert.SerializeXmlNode(document);
+			return jsonStringResponse;
 		}
 
-		public string ConvertXMLtoJSON(string XML_string)
-		{
-			XmlDocument doc = new XmlDocument();
-			doc.Load(XML_string);
-			string jsonString = JsonConvert.SerializeXmlNode(doc);
-			return jsonString;
-		}
 	}
 }

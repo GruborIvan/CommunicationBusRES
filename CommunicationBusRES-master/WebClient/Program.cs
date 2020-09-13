@@ -23,7 +23,7 @@ namespace WebClient
 				Console.Write("Please enter the fileds (EXAMPLE: id;name;description): ");
 				string fields = Console.ReadLine();
 
-				ParseResult result = InputRequestParser.Parse(userRequest, query, fields);
+				Response result = InputRequestParser.Parse(userRequest, query, fields);
 				if(result.Success)
 				{
 					JSONtoXMLAdapter adapter = new JSONtoXMLAdapter();
