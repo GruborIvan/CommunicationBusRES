@@ -90,3 +90,7 @@ C:\Users\WhiteSnake\Documents\RES-project\CommunicationBusRES-master\WebClient\o
 C:\Users\WhiteSnake\Documents\RES-project\CommunicationBusRES-master\WebClient\obj\Debug\WebClient.csproj.CopyComplete
 C:\Users\WhiteSnake\Documents\RES-project\CommunicationBusRES-master\WebClient\obj\Debug\WebClient.exe
 C:\Users\WhiteSnake\Documents\RES-project\CommunicationBusRES-master\WebClient\obj\Debug\WebClient.pdb
+C:\Users\Lenovo\Desktop\PROJEKAT RES\CommunicationBusRES\CommunicationBusRES-master\WebClient\bin\Debug\EntityFramework.dll
+C:\Users\Lenovo\Desktop\PROJEKAT RES\CommunicationBusRES\CommunicationBusRES-master\WebClient\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Lenovo\Desktop\PROJEKAT RES\CommunicationBusRES\CommunicationBusRES-master\WebClient\bin\Debug\EntityFramework.xml
+C:\Users\Lenovo\Desktop\PROJEKAT RES\CommunicationBusRES\CommunicationBusRES-master\WebClient\bin\Debug\EntityFramework.SqlServer.xml

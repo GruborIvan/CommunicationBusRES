@@ -78,16 +78,15 @@ namespace DataConverters.Adapters.Sql
 			string statement = "UPDATE " + tableName + " ";
 			string where = id > 0 ? " WHERE Id=" + id : "";
 
-			var setParts = new List<string>();
+			string queryAdd = "SET ";
 			foreach (string part in query.Split(';')) 
 			{
-				setParts.Add("SET " + part);
+				queryAdd += $"{part},";
 			}
 
+			queryAdd = queryAdd.Substring(0,queryAdd.Length - 1);
 
-			string set = string.Join(", ", setParts);
-
-			statement += set + where;
+			statement += queryAdd + where;
 
 			return new XmlToSqlResult(statement, SqlStatementTypeEnum.UPDATE);
 		}
@@ -109,11 +108,12 @@ namespace DataConverters.Adapters.Sql
 				{
 					if (wherePart.StartsWith("WHERE"))
 					{
-						wherePart += " AND FirstResource_Id IN(" + GetJoinIds(connectedTo) + ")";
+						//wherePart += " AND FirstResource_Id IN(" + GetJoinIds(connectedTo) + ")";
+						wherePart += GetJoinIds(connectedTo);
 					}
 					else
 					{
-						wherePart += "WHERE FirstResource_Id IN(" + GetJoinIds(connectedTo) + ")";
+						wherePart += GetJoinIds(connectedTo);
 					}
 				}
 
@@ -125,7 +125,7 @@ namespace DataConverters.Adapters.Sql
 					}
 					else
 					{
-						wherePart += " WHERE FirstResource_Id IN(" + GetJoinIds(connectedType) + ")";
+						wherePart += " WHERE SecondResource_Id IN(" + GetJoinIds(connectedType) + ")";
 					}
 				}
 
@@ -211,15 +211,16 @@ namespace DataConverters.Adapters.Sql
 			return where;
 		}
 
-		private string GetJoinIds(string list)
+		private string GetJoinIds(string list) // id=1;id=4
 		{
-			var ids = new List<string>();
-			foreach(string part in list.Split(';'))
-			{
-				ids.Add(part.Split('=')[1]);
-			}
+			string join = "";
+			int id1;
 
-			return string.Join(",", ids);
+			string[] split = list.Split('=',';');
+
+			string where = $" AND FirstResource_Id = {split[1]} AND Secondresource_Id = {split[3]}";
+
+			return where;
 		}
 
 
