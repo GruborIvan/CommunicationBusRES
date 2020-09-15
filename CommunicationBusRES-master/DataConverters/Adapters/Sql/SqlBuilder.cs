@@ -109,7 +109,7 @@ namespace DataConverters.Adapters.Sql
 				{
 					if (wherePart.StartsWith("WHERE"))
 					{
-						wherePart += "AND FirstResource_Id IN(" + GetJoinIds(connectedTo) + ")";
+						wherePart += " AND FirstResource_Id IN(" + GetJoinIds(connectedTo) + ")";
 					}
 					else
 					{
@@ -121,11 +121,11 @@ namespace DataConverters.Adapters.Sql
 				{
 					if (wherePart.StartsWith("WHERE")) 
 					{
-						wherePart += "AND TYPE_Id IN(" + GetJoinIds(connectedType) + ")";
+						wherePart += " AND TYPE_Id IN(" + GetJoinIds(connectedType) + ")";
 					}
 					else
 					{
-						wherePart += "WHERE FirstResource_Id IN(" + GetJoinIds(connectedType) + ")";
+						wherePart += " WHERE FirstResource_Id IN(" + GetJoinIds(connectedType) + ")";
 					}
 				}
 
@@ -148,7 +148,6 @@ namespace DataConverters.Adapters.Sql
 
 			return new XmlToSqlResult(statement, SqlStatementTypeEnum.DELETE);
 		}
-
 
 		private string BuildSelectFields(string fields)
 		{
@@ -185,18 +184,26 @@ namespace DataConverters.Adapters.Sql
 				string[] parts = query.Split(';');
 				if (where.StartsWith("WHERE"))
 				{
-					where += " AND ";
 					foreach (string part in parts)
 					{
-						where += tablePrefix + part + " AND ";
+						where += " AND " +tablePrefix + part;
 					}
 				}
 				else
 				{
-					where += " WHERE";
+					where += " WHERE ";
+					bool isFirst = true;
 					foreach (string part in parts)
 					{
-						where += tablePrefix + part + " AND ";
+						if (isFirst)
+						{
+							isFirst = false;
+							where += tablePrefix + part;
+						}
+						else
+						{
+							where += " AND " + tablePrefix + part;
+						}
 					}
 				}
 			}
