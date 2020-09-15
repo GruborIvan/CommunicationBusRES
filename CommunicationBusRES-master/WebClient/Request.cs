@@ -9,14 +9,20 @@
 
 		public string Fields { get; set; }
 
+		public string ConnectedTo { get; set; }
+
+		public string ConnectedType { get; set; }
+
 		public Request() { }
 
-		public Request(string verb, string noun, string query, string fileds)
+		public Request(string verb, string noun, string query, string fileds, string connectedTo, string connectedType)
 		{
 			Verb = verb;
 			Noun = noun;
 			Query = query;
 			Fields = fileds;
+			ConnectedTo = connectedTo;
+			ConnectedType = connectedType;
 		}
 	}
 }

@@ -1,9 +1,13 @@
-﻿using DataConverters;
-using DataModel;
-using DataModel.Model;
+﻿using DataConverters.Adapters.Sql;
+using DataConverters.Interfaces;
+using DataConverters.Repository;
+using DataService;
+using DataService.Interfaces;
+using DataService.Interfaces.Repository;
+using DataService.Repository;
 using System;
-using System.Collections.Generic;
-using System.Web.Script.Serialization;
+using System.Data.Entity;
+using WebClient.Interfaces;
 
 namespace WebClient
 {
@@ -11,33 +15,47 @@ namespace WebClient
 	 {
 		public static void Main(string[] args)
 		{
-			Console.WriteLine("Welcome to application");
-			Console.WriteLine("Possible request: GET, POST, PATCH, DELETE");
-
-			while (true)
+			using(var context = new RESDatabaseContext())
 			{
-				Console.Write("Please fill with request, resource and id (EXAMPLE: REQUEST/RESOURCE/ID): ");
-				string userRequest = Console.ReadLine();
-				Console.Write("Please enter the name and the type (EXAMPLE: name='matthew';type=3): ");
-				string query = Console.ReadLine();
-				Console.Write("Please enter the fileds (EXAMPLE: id;name;description): ");
-				string fields = Console.ReadLine();
+				ISqlBuilder sqlBuilder = new SqlBuilder();
+				IDataRepository repository = new DataRepository(context);
+				IXmlToDatabaseAdapter xmlToDatabaseAdapter = new XmlToDatabaseAdapter(sqlBuilder, repository);
 
-				Response result = InputRequestParser.Parse(userRequest, query, fields);
-				if(result.Success)
-				{
-					JSONtoXMLAdapter adapter = new JSONtoXMLAdapter();
-					string xmlResult = adapter.ConvertJSONtoXML(result.JSON);
-					//Console.WriteLine(xmlResult);
-					//string jsonResult = adapter.ConvertXMLtoJSON();
+				ICommunicationBus communication = new CommunicationBus(xmlToDatabaseAdapter);
+				IJsonToXmlAdapter jsonToXmlAdapter = new JsonToXmlAdapter(communication);
+				IInputRequestParser inputRequestParser = new InputRequestParser();
 
-				}
-				else
+				Console.WriteLine("Welcome to application");
+				Console.WriteLine("Possible request: GET, POST, PATCH, DELETE");
+
+				while (true)
 				{
-					Console.WriteLine("Program executed with error:");
-					Console.WriteLine($"- Code: {result.ErrorCode}");
-					Console.WriteLine($"- Number: {result.ErrorNumber}");
-					Console.WriteLine($"- Message: {result.ErrorMessage}");
+					Console.Write("Please fill with request, resource and id (EXAMPLE: REQUEST/RESOURCE/ID): ");
+					string userRequest = Console.ReadLine();
+					Console.Write("Please enter the name and the type (EXAMPLE: name='matthew';type=3) [*not required]: ");
+					string query = Console.ReadLine();
+					Console.Write("Please enter the fileds (EXAMPLE: id;name;description) [*not required]: ");
+					string fields = Console.ReadLine();
+					Console.Write("Please enter 'connected to' [*not required]: ");
+					string connecteTo = Console.ReadLine();
+
+					Console.Write("Please enter 'connected type' [*not required]: ");
+					string connecteType = Console.ReadLine();
+
+					ParseResult result = inputRequestParser.Parse(userRequest, query, fields, connecteTo, connecteType);
+					if (result.Success)
+					{
+						string xml = jsonToXmlAdapter.ConvertJSONtoXML(result.JSON);
+						string jsonResult = jsonToXmlAdapter.ConvertXMLtoJSON(xml);
+						Console.WriteLine(jsonResult);
+					}
+					else
+					{
+						Console.WriteLine("Program executed with error:");
+						Console.WriteLine($"- Code: {result.ErrorCode}");
+						Console.WriteLine($"- Number: {result.ErrorNumber}");
+						Console.WriteLine($"- Message: {result.ErrorMessage}");
+					}
 				}
 			}
 		}
