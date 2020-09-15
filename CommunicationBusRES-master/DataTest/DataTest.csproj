@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataService\ComunicationBusTest.cs" />
+    <Compile Include="DataService\InputRequestParserTest.cs" />
     <Compile Include="DataService\JsonToXmlAdapterTest.cs" />
     <Compile Include="DataService\SqlBuilderTest.cs" />
     <Compile Include="DataService\XmlToDatabaseAdapterTest.cs" />

@@ -30,25 +30,12 @@ namespace WebClient
 					return new ParseResult(5000, "BAD_FORMAT", $"Requested operation: {operation} is not supported!");
 				}
 
-				if (!isGetAllOrPost && !int.TryParse(id, out int intResult) && !string.Equals(operation, ALLOWED_REQUESTS[1]))
+				if (!string.IsNullOrEmpty(query) && !query.Contains(";") && !query.Contains("="))
 				{
-					return new ParseResult(5000, "BAD_FORMAT", "Request parameter 'id' must be number!");
+					return new ParseResult(5000, "BAD_FORMAT", "Something is wrong with the 'query' parameter!");
 				}
 
-				if (!string.IsNullOrEmpty(query))
-				{
-					string[] queryParts = query.Split(';');
-					foreach (string part in queryParts)
-					{
-						string[] parts = part.Split('=');
-						if (parts.Length < 2)
-						{
-							return new ParseResult(5000, "BAD_FORMAT", "Something is wrong with the 'query' parameter!");
-						}
-					}
-				}
-
-				if (!string.IsNullOrEmpty(fields) && string.Equals(operation, ALLOWED_REQUESTS[0]) && fields.Split(';').Length == 0)
+				if (!string.IsNullOrEmpty(fields) && !fields.Contains(";") && !fields.Contains("="))
 				{
 					return new ParseResult(5000, "BAD_FORMAT", "Something is wrong with the 'fileds' parameter!");
 				}

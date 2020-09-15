@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
@@ -31,6 +32,10 @@ namespace DataConverters.Repository
 				string selectColumns = ExtractSelectColumnNames(sql, "SELECT", "FROM");
 				return ExtractResult(reader, selectColumns);
 			}
+			catch (Exception exception)
+			{
+				return new List<Dictionary<string, object>>();
+			}
 			finally
 			{
 				command.Connection.Close();
@@ -49,6 +54,10 @@ namespace DataConverters.Repository
 				command.Connection.Open();
 				int affectedRecords = command.ExecuteNonQuery();
 				return affectedRecords > 0;
+			}
+			catch
+			{
+				return false;
 			}
 			finally
 			{
