@@ -113,7 +113,7 @@ namespace DataTest.DataService
 			XmlToSqlResult result = sqlBuilder.Build(SELECT_ALL_WITH_QUERY_AND_NAME_AND_CONNECTED_TO_AND_CONNECTED_TYPE);
 
 			Assert.True(result.Success);
-			Assert.AreEqual("SELECT x.id, x.name, x.description FROM resources x  JOIN Relations ON FirstResource_Id = x.Id  WHERE x.Id=1 AND x.name='Alek' AND x.type=1 AND FirstResource_Id IN(1,4) AND TYPE_Id IN(7,8)", result.Statement);
+			Assert.AreEqual("SELECT x.id, x.name, x.description FROM resources x JOIN Relations ON FirstResource_Id = x.Id WHERE x.Id=1 AND x.name='Alek' AND x.type=1 AND FirstResource_Id = 1 AND Secondresource_Id = 4 AND TYPE_Id IN( AND FirstResource_Id = 7 AND Secondresource_Id = 8)", result.Statement);
 		}
 
 		[Test]
@@ -173,7 +173,7 @@ namespace DataTest.DataService
 
 			Assert.True(result.Success);
 
-			Assert.AreEqual("UPDATE resources SET name='Alek', SET type=1 WHERE Id=1", result.Statement);
+			Assert.AreEqual("UPDATE resources SET name='Alek',type=1 WHERE Id=1", result.Statement);
 		}
 
 		[Test]
